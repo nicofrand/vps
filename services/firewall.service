@@ -1,0 +1,13 @@
+ [Unit]
+ Description=Firewall
+ After=network.target
+
+ [Service]
+ Type=simple
+ ExecStart=/usr/bin/firewall start
+ ExecStop=/usr/bin/firewall stop
+ Restart=always
+ SyslogIdentifier=Firewall
+
+ [Install]
+ WantedBy=multi-user.target

@@ -1,0 +1,74 @@
+#!/bin/sh
+
+case "$1" in
+    start)
+        # Vider les tables actuelles
+        iptables -t filter -F
+
+        # Vider les règles personnelles
+        iptables -t filter -X
+
+        # Ne pas casser les connexions etablies
+        iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+        iptables -A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+        # Autoriser loopback
+        iptables -t filter -A INPUT -i lo -j ACCEPT
+        iptables -t filter -A OUTPUT -o lo -j ACCEPT
+
+        # ICMP (Ping)
+        iptables -t filter -A INPUT -p icmp -j ACCEPT
+        iptables -t filter -A OUTPUT -p icmp -j ACCEPT
+
+        # SSH in
+        iptables -t filter -A INPUT -p tcp --dport 22 -j ACCEPT
+
+        # DNS In
+        iptables -t filter -A INPUT -p tcp --dport 53 -j ACCEPT
+        iptables -t filter -A INPUT -p udp --dport 53 -j ACCEPT
+
+        # HTTP + HTTPS
+        iptables -t filter -A INPUT -p tcp --dport 80 -j ACCEPT
+        iptables -t filter -A INPUT -p tcp --dport 443 -j ACCEPT
+        iptables -t filter -A INPUT -p tcp --dport 8443 -j ACCEPT
+
+        # FTP
+        iptables -t filter -A INPUT -p tcp --dport 20:21 -j ACCEPT
+        iptables -t filter -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+        # Mail SMTP:25
+        iptables -t filter -A INPUT -p tcp --dport 25 -j ACCEPT
+
+        # Mail POP3:110
+        iptables -t filter -A INPUT -p tcp --dport 110 -j ACCEPT
+
+        # Mail IMAP:143
+        iptables -t filter -A INPUT -p tcp --dport 143 -j ACCEPT
+
+        # Mail POP3S:995
+        iptables -t filter -A INPUT -p tcp --dport 995 -j ACCEPT
+
+        # Monit (monitoring) on port 1337
+        #iptables -t filter -A INPUT -p tcp --dport 1337 -j ACCEPT
+
+        # Interdire toute connexion entrante
+        iptables -t filter -A INPUT -j DROP
+
+        #Autoriser toute connexion sortante
+        iptables -t filter -A OUTPUT -j ACCEPT
+
+        echo "Firewall started"
+        exit 0
+        ;;
+
+    stop)
+        iptables -F INPUT
+        echo "Firewall stopped"
+        exit 0
+        ;;
+
+    *)
+        echo "Usage: /usr/bin/firewall {start|stop}"
+        exit 1
+        ;;
+esac
