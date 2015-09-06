@@ -8,7 +8,7 @@ case "$1" in
         # Vider les règles personnelles
         iptables -t filter -X
 
-        # Ne pas casser les connexions etablies
+        # Ne pas casser les connexions établies
         iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
         iptables -A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 
@@ -51,7 +51,7 @@ case "$1" in
         # Monit (monitoring) on port 1337
         #iptables -t filter -A INPUT -p tcp --dport 1337 -j ACCEPT
 
-        # Interdire toute connexion entrante
+        # Interdire toute connexion entrante autre
         iptables -t filter -A INPUT -j DROP
 
         #Autoriser toute connexion sortante
