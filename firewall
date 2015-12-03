@@ -41,15 +41,14 @@ case "$1" in
 
         # Mail POP3:110
         iptables -t filter -A INPUT -p tcp --dport 110 -j ACCEPT
+        iptables -t filter -A INPUT -p tcp --dport 995 -j ACCEPT
 
         # Mail IMAP:143
         iptables -t filter -A INPUT -p tcp --dport 143 -j ACCEPT
-
-        # Mail POP3S:995
-        iptables -t filter -A INPUT -p tcp --dport 995 -j ACCEPT
+        iptables -t filter -A INPUT -p tcp --dport 993 -j ACCEPT
 
         # Monit (monitoring) on port 1337
-        #iptables -t filter -A INPUT -p tcp --dport 1337 -j ACCEPT
+        iptables -t filter -A INPUT -p tcp --dport 1337 -j ACCEPT
 
         # Interdire toute connexion entrante autre
         iptables -t filter -P INPUT DROP
