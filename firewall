@@ -52,10 +52,7 @@ case "$1" in
         #iptables -t filter -A INPUT -p tcp --dport 1337 -j ACCEPT
 
         # Interdire toute connexion entrante autre
-        iptables -t filter -A INPUT -j DROP
-
-        #Autoriser toute connexion sortante
-        iptables -t filter -A OUTPUT -j ACCEPT
+        iptables -t filter -P INPUT DROP
 
         echo "Firewall started"
         exit 0
