@@ -48,10 +48,10 @@ service apache2 restart
 echo "Installing Wallabag"
 wget http://wllbg.org/latest
 unzip latest
-mv wallabag-* wb
+mv wallabag-* wallabag
 rm latest
-chown -R www-data:www-data wb
-cd wb
+chown -R www-data:www-data wallabag
+cd wallabag
 curl -s http://getcomposer.org/installer | php
 php composer.phar install
 echo "Please perform wallabag install then update wallabag assets and db directory (and set rights to www-data:www-data) and modify the salt key in inc/poche/config.inc.php once set."
