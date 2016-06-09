@@ -49,6 +49,10 @@ case "$1" in
 
         # Monit (monitoring) on port 1337
         iptables -t filter -A INPUT -p tcp --dport 1337 -j ACCEPT
+        
+        # Git
+        iptables -t filter -A INPUT -p tcp --dport 9418 -j ACCEPT
+        iptables -t filter -A OUTPUT -p tcp --dport 9418 -j ACCEPT
 
         # Interdire toute connexion entrante autre
         iptables -t filter -P INPUT DROP
