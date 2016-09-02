@@ -22,6 +22,9 @@ echo "Installing all the packages needed"
 apt-get update && apt-get upgrade --yes
 apt-get install curl wget apache2 php5 php5-sqlite php5-tidy php5-imagick php5-curl php5-gd proftpd git unzip nodejs python-dev libffi-dev libyaml-dev libxml2-dev libxslt-dev --yes
 
+#Enable apache2 modules
+a2enmod headers
+
 #Get the install scripts
 echo "Fetching the install scripts"
 git clone https://github.com/nicofrand/vps.git tmp_vps
